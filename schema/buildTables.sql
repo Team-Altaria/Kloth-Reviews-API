@@ -18,44 +18,44 @@ CREATE TABLE chars_names (
 );
 
 
--- INSERT INTO meta(product_id)
--- SELECT DISTINCT product_id
--- FROM reviews;
+INSERT INTO meta(product_id)
+SELECT DISTINCT product_id
+FROM reviews;
 
--- UPDATE meta
--- SET rating1=matchInfo.count
--- FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=1 GROUP BY product_id) AS matchInfo
--- WHERE meta.product_id=matchInfo.product_id;
+UPDATE meta
+SET rating1=matchInfo.count
+FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=1 GROUP BY product_id) AS matchInfo
+WHERE meta.product_id=matchInfo.product_id;
 
--- UPDATE meta
--- SET rating2=matchInfo.count
--- FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=2 GROUP BY product_id) AS matchInfo
--- WHERE meta.product_id=matchInfo.product_id;
+UPDATE meta
+SET rating2=matchInfo.count
+FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=2 GROUP BY product_id) AS matchInfo
+WHERE meta.product_id=matchInfo.product_id;
 
--- UPDATE meta
--- SET rating3=matchInfo.count
--- FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=3 GROUP BY product_id) AS matchInfo
--- WHERE meta.product_id=matchInfo.product_id;
+UPDATE meta
+SET rating3=matchInfo.count
+FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=3 GROUP BY product_id) AS matchInfo
+WHERE meta.product_id=matchInfo.product_id;
 
--- UPDATE meta
--- SET rating4=matchInfo.count
--- FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=4 GROUP BY product_id) AS matchInfo
--- WHERE meta.product_id=matchInfo.product_id;
+UPDATE meta
+SET rating4=matchInfo.count
+FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=4 GROUP BY product_id) AS matchInfo
+WHERE meta.product_id=matchInfo.product_id;
 
--- UPDATE meta
--- SET rating5=matchInfo.count
--- FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=5 GROUP BY product_id) AS matchInfo
--- WHERE meta.product_id=matchInfo.product_id;
+UPDATE meta
+SET rating5=matchInfo.count
+FROM (SELECT product_id, COUNT(*) FROM reviews WHERE rating=5 GROUP BY product_id) AS matchInfo
+WHERE meta.product_id=matchInfo.product_id;
 
--- UPDATE meta
--- SET recommend_true=matchInfo.count
--- FROM (SELECT product_id, COUNT(*) FROM reviews WHERE recommend=true GROUP BY product_id) AS matchInfo
--- WHERE meta.product_id=matchInfo.product_id;
+UPDATE meta
+SET recommend_true=matchInfo.count
+FROM (SELECT product_id, COUNT(*) FROM reviews WHERE recommend=true GROUP BY product_id) AS matchInfo
+WHERE meta.product_id=matchInfo.product_id;
 
--- UPDATE meta
--- SET recommend_false=matchInfo.count
--- FROM (SELECT product_id, COUNT(*) FROM reviews WHERE recommend=false GROUP BY product_id) AS matchInfo
--- WHERE meta.product_id=matchInfo.product_id;
+UPDATE meta
+SET recommend_false=matchInfo.count
+FROM (SELECT product_id, COUNT(*) FROM reviews WHERE recommend=false GROUP BY product_id) AS matchInfo
+WHERE meta.product_id=matchInfo.product_id;
 
 
 INSERT INTO chars_names(chars_name)
@@ -72,6 +72,9 @@ UPDATE chars SET chars_id=chars_name_id
 FROM chars_names
 WHERE chars.chars_name=chars_names.chars_name;
 
--- UPDATE chars SET count=grouped.count, total=grouped.total
--- FROM (SELECT chars_id, COUNT(value) AS count, SUM(value) AS total FROM chars_review_join GROUP BY chars_id) AS grouped
--- WHERE chars.id=grouped.chars_id;
+ALTER TABLE chars
+DROP COLUMN chars_name;
+
+UPDATE chars SET count=grouped.count, total=grouped.total
+FROM (SELECT chars_id, COUNT(value) AS count, SUM(value) AS total FROM chars_review_join GROUP BY chars_id) AS grouped
+WHERE chars.id=grouped.chars_id;
