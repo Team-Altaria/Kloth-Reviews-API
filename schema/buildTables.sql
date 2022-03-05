@@ -62,9 +62,6 @@ INSERT INTO chars_names(chars_name)
 SELECT DISTINCT chars_name
 FROM chars;
 
-ALTER TABLE  chars
-DROP COLUMN IF EXISTS chars_id;
-
 ALTER TABLE chars
 ADD COLUMN chars_id smallint;
 
@@ -78,3 +75,17 @@ DROP COLUMN chars_name;
 UPDATE chars SET count=grouped.count, total=grouped.total
 FROM (SELECT chars_id, COUNT(value) AS count, SUM(value) AS total FROM chars_review_join GROUP BY chars_id) AS grouped
 WHERE chars.id=grouped.chars_id;
+
+SELECT setval(pg_get_serial_sequence('reviews', 'review_id'), coalesce(max(review_id)+1, 1), false) FROM reviews;
+
+SELECT setval(pg_get_serial_sequence('photos', 'photos_id'), coalesce(max(photos_id)+1, 1), false) FROM photos;
+
+CREATE INDEX reviews_product_id ON reviews (product_id);
+
+CREATE INDEX photo_review_id ON photos(review_id);
+
+CREATE INDEX chars_product_id ON chars(product_id);
+
+CREATE  INDEX chars_chars_id ON chars(chars_id);
+
+CREATE INDEX meta_product_id ON meta(product_id);
